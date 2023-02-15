@@ -5,9 +5,20 @@ const https = require("https"); // native node module
 const app = express();
 // application programming interface
 
-app.get("/", function (req, res) {
+app.use(express.urlencoded({exended: true}));
 
-    const url = "https://api.openweathermap.org/data/2.5/weather?q=Helsinki,fi&appid=bd605e7a1ad0a1161c816d3e4f3709de&units=metric";
+app.get("/", function (req, res) {
+    res.sendFile(__dirname + "/index.html");
+ 
+});
+
+app.post("/", function (req, res) {
+    const query = req.body.cityName; // otetaan CityName input
+    const apiKey = "bd605e7a1ad0a1161c816d3e4f3709de";
+    const unit = "metric";
+    //https://api.openweathermap.org/data/2.5/weather?q=Helsinki,fi&appid=bd605e7a1ad0a1161c816d3e4f3709de&units=metric
+    const url = "https://api.openweathermap.org/data/2.5/weather?q=" + query + "&appid=" + apiKey + "&units=" + unit;
+    // manipuloidaan URLia 
 
     https.get(url, function (response) {
         console.log(response.statusCode);
@@ -19,13 +30,14 @@ app.get("/", function (req, res) {
             const weatherIcon = weatherData.weather[0].icon; 
             const imageUrl = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
-            res.write(`<h1>The temperature in Helsinki is ${temp} C</h1>`); // cant send too many
+            res.write(`<h1>The temperature in ${query} is ${temp} C</h1>`); // cant send too many
             res.write(`<p>The weather is currently ${weatherDesc}<p>`); // can sen as many res.write(); as i want
             res.write("<img src = " + imageUrl + ">"); // creat corresponding image
 
         });
-    });
-});
+    }); 
+})
+
 
 app.listen(3000, function () {
     console.log("Server run");
