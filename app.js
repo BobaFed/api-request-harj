@@ -14,9 +14,9 @@ app.get("/", function (req, res) {
 
 app.post("/", function (req, res) {
     const query = req.body.cityName; // otetaan CityName input
-    const apiKey = "bd605e7a1ad0a1161c816d3e4f3709de";
+    const apiKey = "bxxxxxxxxxxxxxxxxxxxxx9de";
     const unit = "metric";
-    //https://api.openweathermap.org/data/2.5/weather?q=Helsinki,fi&appid=bd605e7a1ad0a1161c816d3e4f3709de&units=metric
+    
     const url = "https://api.openweathermap.org/data/2.5/weather?q=" + query + "&appid=" + apiKey + "&units=" + unit;
     // manipuloidaan URLia 
 
